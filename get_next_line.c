@@ -8,7 +8,7 @@ char *fd_read(int fd,char *T_line)
 	a = 1;
 	if(!T_line)
 		T_line = ft_calloc(1, 1);
-	R_line = ft_calloc(BUFFER_SIZE, sizeof(char));
+	R_line = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	while(a > 0 && !ft_strchr(R_line, '\n'))
 	{
 		a = read(fd, R_line, BUFFER_SIZE);
@@ -22,6 +22,21 @@ char *fd_read(int fd,char *T_line)
 	free(R_line);
 	return (T_line);
 }
+void updated_T(char *T_line, int i)
+{
+	char *new_T;
+	int j;
+
+	j = 0;
+	while(T_line[i + j])
+		j++;
+	new_T = ft_calloc(j, sizeof(char));
+	j = 0;
+	while(T_line[i])
+		new_T[j++] = T_line[i++];
+	T_line = new_T;
+}
+
 char *fd_line(char *T_line)
 {
 	int i;
@@ -40,14 +55,7 @@ char *fd_line(char *T_line)
 		i++;
 	}
 	line[i] = '\0';
-	j = 0;
-	while(T_line[i + j])
-		j++;
-	new_T = ft_calloc(j, sizeof(char));
-	j = 0;
-	while(T_line[i])
-		new_T[j++] = T_line[i++];
-	T_line = new_T;
+	updated_T(T_line, i);
 	return(line);
 }
 
