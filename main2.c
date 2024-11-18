@@ -4,12 +4,27 @@
 
 int main()
 {
-char *str;
+    char *str;
 int fd = open("test.txt", O_RDWR);
-printf("%s\n", get_next_line(fd));
-read(fd, get_next_line(fd), 3);
-printf("%s\n", get_next_line(fd));
-read(fd, get_next_line(fd), 3);
-printf("%s\n", get_next_line(fd));
+// int a = read(fd, NULL, 4);
+// printf("%d\n", a);
+str = get_next_line(fd);
+printf("result = %s\n", str);
+free(str);
+str = get_next_line(fd);
+printf("result = %s\n", str);
+free(str);
+str = get_next_line(fd);
+printf("result = %s\n", str);
+free(str);
+str = get_next_line(fd);
+printf("result = %s\n", str);
+free(str);
+str = get_next_line(fd);
+printf("result = %s\n", str);
+free(str);
+str = get_next_line(fd);
+printf("result = %s\n", str);
+free(str);
 close(fd);
 }
