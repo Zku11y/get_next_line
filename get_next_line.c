@@ -2,114 +2,101 @@
 #include <stdio.h>
 #include <limits.h>
 
-char	*ft_strdup(const char *s1)
+char *fd_read(int fd,char *stash)
 {
-	char	*str;
-	int		i;
-
-	str = malloc(ft_strlen(s1) + 1);
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-char *fd_read(int fd,char *T_line)
-{
-	char *R_line;
 	ssize_t a;
 	char *tmp;
 
 	a = 1;
-	R_line = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	while(a > 0 && !ft_strchr(R_line, '\n'))
+	if(!stash)
+		stash = ft_strdup("");
+	tmp = malloc(BUFFER_SIZE + 1);
+	if (!tmp)
+		return (free(stash), stash = NULL, NULL);
+	a = 1;
+	while(a > 0)
 	{
-		tmp = T_line;
-		a = read(fd, R_line, BUFFER_SIZE);
-		R_line[a] = '\0';
-		T_line = ft_strjoin(T_line, R_line);
-		free(tmp);
+		a = read(fd, tmp, BUFFER_SIZE);
+		if(a == -1)
+			return (free(tmp), tmp = NULL, free(stash), stash = NULL, NULL);
+		tmp[a] = '\0';
+		stash = ft_strjoin(stash, tmp);
+		if (!stash)
+			return (free(tmp), tmp = NULL, NULL);
+		if (ft_strchr(tmp, '\n'))
+			break ;
 	}
-	if(a == -1)
-	{
-		free(R_line);
-		free(T_line);
-		return (NULL);
-	}
-	free(R_line);
-	return (T_line);
+	free(tmp);
+	tmp = NULL;
+	return (stash);
 }
-char *updated_T(char *T_line)
+
+char *updated_T(char *stash)
 {
-	char *new_T;
-	int j;
-	int i;
+	char *new_stash;
+	int i, j;
 
 	i = 0;
-	j = 0;
-	new_T = NULL;
-	while(T_line[i] && T_line[i] != '\n')
+	while (stash[i] && stash[i] != '\n')
 		i++;
-	if(!T_line[i])
-	{
-		free(T_line);
-		return (new_T);
-	}
+	if (!stash[i])
+		return (free(stash), stash = NULL, NULL);
 	i++;
-	while(T_line[i + j])
-		j++;
-	new_T = ft_calloc(j + 1, sizeof(char));
+	new_stash = malloc(ft_strlen(stash) - i + 1);
+	if (!new_stash)
+		return (free(stash), stash = NULL, NULL);
 	j = 0;
-	while(T_line[i])
-		new_T[j++] = T_line[i++];
-	new_T[j] = '\0';
-	free(T_line);
-	return(new_T);
+	while (stash[i])
+		new_stash[j++] = stash[i++];
+	new_stash[j] = 0;
+	free(stash);
+	stash = NULL;
+	return(new_stash);
 }
 
-char *fd_line(char *T_line)
+char *fd_line(char *stash)
 {
 	int i;
 	char *line;
 
-	if(!T_line[0])
-	{
+	if(!stash || !stash[0])
 		return (NULL);
-	}
 	i = 0;
-	while(T_line[i] && T_line[i] != '\n')
+	while(stash[i] && stash[i] != '\n')
 		i++;
-	line = ft_calloc(i + 1, sizeof(char));
+	if(stash[i] == '\n')
+		i++;
+	line = ft_calloc(i + 1, 1);
+	if(!line)
+		return (NULL);
 	i = 0;
-	while(T_line[i] && T_line[i] != '\n')
+	while(stash[i] && stash[i] != '\n')
 	{
-		line[i] = T_line[i];
+		line[i] = stash[i];
 		i++;
 	}
-	line[i] = '\0';
+	if(stash[i])
+		line[i++] = '\n';
 	return(line);
 }
 
 char *get_next_line(int fd)
 {
-	char *line;
-	static char *T_line;
+	char		*line;
+	static char	*stash;
 
-	if(fd < 0 || BUFFER_SIZE <= 0)
-		return NULL;
-	T_line = fd_read(fd, T_line);
-	if(T_line == NULL)
-	{
-		return (NULL);
-	}
-	line = fd_line(T_line);
-	T_line = updated_T(T_line);
+	if(fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
+		return (free(stash), stash= NULL, NULL);
+
+	stash = fd_read(fd, stash);
+	if(stash == NULL)
+		return (free(stash), stash = NULL, NULL);
+
+	line = fd_line(stash);
+	if (!line)
+		return (free(stash), stash = NULL, NULL);
+
+	stash = updated_T(stash);
 	return (line);
 }
 
