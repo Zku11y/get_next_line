@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skully <skully@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mdakni <mdakni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:37:02 by skully            #+#    #+#             */
-/*   Updated: 2024/11/20 13:37:06 by skully           ###   ########.fr       */
+/*   Updated: 2024/11/20 14:50:13 by mdakni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ char	*ft_strchr(const char *s, char c)
 	}
 	return (NULL);
 }
+
 void	*ft_calloc(size_t count, size_t size)
 {
 	unsigned char	*ptr;
-	size_t i;
+	size_t			i;
 
 	if (count == 0 || size == 0)
 	{

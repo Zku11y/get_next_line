@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skully <skully@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mdakni <mdakni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:37:11 by skully            #+#    #+#             */
-/*   Updated: 2024/11/20 13:44:03 by skully           ###   ########.fr       */
+/*   Updated: 2024/11/20 14:45:41 by mdakni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *fd_read(int fd, char *stash)
+char	*fd_read(int fd, char *stash)
 {
-	ssize_t a;
-	char *tmp;
+	ssize_t	a;
+	char	*tmp;
 
 	a = 1;
 	if (!stash)
@@ -34,17 +34,18 @@ char *fd_read(int fd, char *stash)
 		if (!stash)
 			return (free(tmp), tmp = NULL, NULL);
 		if (ft_strchr(tmp, '\n'))
-			break;
+			break ;
 	}
 	free(tmp);
 	tmp = NULL;
 	return (stash);
 }
-char *updated_T(char *stash)
+
+char	*updated_t(char *stash)
 {
-	char *new_stash;
-	int i;
-	int j;
+	char	*new_stash;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
@@ -64,10 +65,10 @@ char *updated_T(char *stash)
 	return (new_stash);
 }
 
-char *fd_line(char *stash)
+char	*fd_line(char *stash)
 {
-	int i;
-	char *line;
+	int		i;
+	char	*line;
 
 	if (!stash || !stash[0])
 		return (NULL);
@@ -76,7 +77,8 @@ char *fd_line(char *stash)
 		i++;
 	if (stash[i] == '\n')
 		i++;
-	line = ft_calloc(i + 1, 1); // why did i use calloc instead of malloc in this case?
+	line = ft_calloc(i + 1, 1);
+	// why did i use calloc instead of malloc in this case?
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -90,22 +92,19 @@ char *fd_line(char *stash)
 	return (line);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	char *line;
-	static char *stash;
+	char		*line;
+	static char	*stash;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (free(stash), stash = NULL, NULL);
-
 	stash = fd_read(fd, stash);
 	if (stash == NULL)
 		return (free(stash), stash = NULL, NULL);
-
 	line = fd_line(stash);
 	if (!line)
 		return (free(stash), stash = NULL, NULL);
-
-	stash = updated_T(stash);
+	stash = updated_t(stash);
 	return (line);
 }
