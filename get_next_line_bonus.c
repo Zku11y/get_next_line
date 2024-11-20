@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skully <skully@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 13:37:11 by skully            #+#    #+#             */
-/*   Updated: 2024/11/20 13:44:03 by skully           ###   ########.fr       */
+/*   Created: 2024/11/20 13:36:13 by skully            #+#    #+#             */
+/*   Updated: 2024/11/20 13:36:17 by skully           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-char *fd_read(int fd, char *stash)
+char *fd_read(int fd,char *stash)
 {
 	ssize_t a;
 	char *tmp;
@@ -34,17 +34,17 @@ char *fd_read(int fd, char *stash)
 		if (!stash)
 			return (free(tmp), tmp = NULL, NULL);
 		if (ft_strchr(tmp, '\n'))
-			break;
+			break ;
 	}
 	free(tmp);
 	tmp = NULL;
 	return (stash);
 }
+
 char *updated_T(char *stash)
 {
 	char *new_stash;
-	int i;
-	int j;
+	int i, j;
 
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
@@ -92,20 +92,21 @@ char *fd_line(char *stash)
 
 char *get_next_line(int fd)
 {
-	char *line;
-	static char *stash;
+	char		*line;
+	static char	*stash[1024];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
-		return (free(stash), stash = NULL, NULL);
+		return (free(stash[fd]), stash[fd]= NULL, NULL);
 
-	stash = fd_read(fd, stash);
-	if (stash == NULL)
-		return (free(stash), stash = NULL, NULL);
+	stash[fd] = fd_read(fd, stash[fd]);
+	if (stash[fd] == NULL)
+		return (free(stash[fd]), stash[fd] = NULL, NULL);
 
-	line = fd_line(stash);
+	line = fd_line(stash[fd]);
 	if (!line)
-		return (free(stash), stash = NULL, NULL);
+		return (free(stash[fd]), stash[fd] = NULL, NULL);
 
-	stash = updated_T(stash);
+	stash[fd] = updated_T(stash[fd]);
 	return (line);
 }
+

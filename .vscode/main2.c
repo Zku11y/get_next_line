@@ -8,7 +8,7 @@ int main()
 int fd = open("test.txt", O_RDWR);
 str = malloc(BUFFER_SIZE + 1);
 if (!str)
-    return NULL;
+    return 0;
 // int a = read(fd, NULL, 4);
 // printf("%d\n", a);
 // str = get_nexstash(fd);

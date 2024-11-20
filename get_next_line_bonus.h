@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skully <skully@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 13:37:15 by skully            #+#    #+#             */
-/*   Updated: 2024/11/20 13:37:17 by skully           ###   ########.fr       */
+/*   Created: 2024/11/20 13:36:24 by skully            #+#    #+#             */
+/*   Updated: 2024/11/20 13:36:26 by skully           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct list {
 }	t_list;
 
 #include <stdlib.h>
-#include <unistd.h>
+#include <unistd.h> // why did you use these 2 libraries?
 
 char 	*get_next_line(int fd);
 char	*ft_strchr(const char *s, char c);
