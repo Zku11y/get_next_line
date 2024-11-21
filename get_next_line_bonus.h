@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdakni <mdakni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 13:36:24 by skully            #+#    #+#             */
-/*   Updated: 2024/11/20 14:49:40 by mdakni           ###   ########.fr       */
+/*   Created: 2024/11/21 11:18:32 by mdakni            #+#    #+#             */
+/*   Updated: 2024/11/21 11:18:33 by mdakni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_BONUS_H
 
 # include <stdlib.h>
-# include <unistd.h> // why did you use these 2 libraries?
+# include <unistd.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 5

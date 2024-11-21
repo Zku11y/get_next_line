@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdakni <mdakni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 13:36:13 by skully            #+#    #+#             */
-/*   Updated: 2024/11/20 14:48:58 by mdakni           ###   ########.fr       */
+/*   Created: 2024/11/21 11:18:24 by mdakni            #+#    #+#             */
+/*   Updated: 2024/11/21 11:18:25 by mdakni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ char	*fd_line(char *stash)
 	if (stash[i] == '\n')
 		i++;
 	line = ft_calloc(i + 1, 1);
-	// why did i use calloc instead of malloc in this case?
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -95,7 +94,7 @@ char	*fd_line(char *stash)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*stash[1024];
+	static char	*stash[256];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (free(stash[fd]), stash[fd] = NULL, NULL);

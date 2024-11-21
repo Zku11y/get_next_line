@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdakni <mdakni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 13:37:11 by skully            #+#    #+#             */
-/*   Updated: 2024/11/20 14:45:41 by mdakni           ###   ########.fr       */
+/*   Created: 2024/11/21 11:18:50 by mdakni            #+#    #+#             */
+/*   Updated: 2024/11/21 11:41:24 by mdakni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,13 @@ char	*updated_t(char *stash)
 	if (!stash[i])
 		return (free(stash), stash = NULL, NULL);
 	i++;
-	new_stash = malloc(ft_strlen(stash) - i + 1);
+	new_stash = ft_calloc(ft_strlen(stash) - i + 1, 1);
 	if (!new_stash)
 		return (free(stash), stash = NULL, NULL);
 	j = 0;
 	while (stash[i])
 		new_stash[j++] = stash[i++];
-	new_stash[j] = '\0';
-	free(stash);
-	stash = NULL;
-	return (new_stash);
+	return (free(stash), stash = NULL, new_stash);
 }
 
 char	*fd_line(char *stash)
@@ -78,7 +75,6 @@ char	*fd_line(char *stash)
 	if (stash[i] == '\n')
 		i++;
 	line = ft_calloc(i + 1, 1);
-	// why did i use calloc instead of malloc in this case?
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -88,7 +84,7 @@ char	*fd_line(char *stash)
 		i++;
 	}
 	if (stash[i])
-		line[i++] = '\n';
+		line[i] = '\n';
 	return (line);
 }
 
@@ -105,6 +101,5 @@ char	*get_next_line(int fd)
 	line = fd_line(stash);
 	if (!line)
 		return (free(stash), stash = NULL, NULL);
-	stash = updated_t(stash);
-	return (line);
+	return (stash = updated_t(stash), line);
 }
