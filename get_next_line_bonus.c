@@ -6,7 +6,7 @@
 /*   By: mdakni <mdakni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 11:18:24 by mdakni            #+#    #+#             */
-/*   Updated: 2024/11/21 11:18:25 by mdakni           ###   ########.fr       */
+/*   Updated: 2024/11/22 11:22:55 by mdakni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ char	*fd_read(int fd, char *stash)
 		if (ft_strchr(tmp, '\n'))
 			break ;
 	}
-	free(tmp);
-	tmp = NULL;
-	return (stash);
+	return (free(tmp), tmp = NULL, stash);
 }
 
 char	*updated_t(char *stash)
@@ -94,7 +92,7 @@ char	*fd_line(char *stash)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*stash[256];
+	static char	*stash[10240];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (free(stash[fd]), stash[fd] = NULL, NULL);

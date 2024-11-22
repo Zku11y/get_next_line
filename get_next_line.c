@@ -6,7 +6,7 @@
 /*   By: mdakni <mdakni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 11:18:50 by mdakni            #+#    #+#             */
-/*   Updated: 2024/11/21 11:41:24 by mdakni           ###   ########.fr       */
+/*   Updated: 2024/11/21 12:09:01 by mdakni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*fd_read(int fd, char *stash)
 	ssize_t	a;
 	char	*tmp;
 
-	a = 1;
 	if (!stash)
 		stash = ft_strdup("");
 	tmp = malloc(BUFFER_SIZE + 1);
@@ -93,10 +92,10 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*stash;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
+	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
 		return (free(stash), stash = NULL, NULL);
 	stash = fd_read(fd, stash);
-	if (stash == NULL)
+	if (!stash)
 		return (free(stash), stash = NULL, NULL);
 	line = fd_line(stash);
 	if (!line)
